@@ -49,7 +49,8 @@ export default function AgencyProportionChart() {
             const labels = topAgencies.map(agency => {
               // Simplify agency names
               const name = agency.name.replace("Department of ", "Dept. of ");
-              return name.length > 20 ? name.substring(0, 18) + "..." : name;
+              // Further shorten agency names to prevent cutoff
+              return name.length > 18 ? name.substring(0, 16) + "..." : name;
             });
             
             // Add "Other" category
@@ -101,13 +102,25 @@ export default function AgencyProportionChart() {
                   plugins: {
                     legend: {
                       position: 'right',
+                      align: 'start',
                       labels: {
                         padding: 20,
+                        boxWidth: 15,
+                        boxHeight: 15, 
                         font: {
                           family: 'var(--body-font), serif',
                           size: 16 // Larger font size
+                        },
+                        // Prevent text from being cut off
+                        textAlign: 'left',
+                        generateLabels: function(chart) {
+                          const original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
+                          const labels = original.call(this, chart);
+                          return labels;
                         }
-                      }
+                      },
+                      // Expand the legend width to prevent cutoff
+                      maxWidth: 200
                     },
                     tooltip: {
                       titleFont: {
