@@ -54,17 +54,17 @@ export default async function Page() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center justify-center p-10 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">{titleMetrics.wordCount.toLocaleString()}</div>
+                <div className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 text-center break-words">{titleMetrics.wordCount.toLocaleString()}</div>
                 <div className="text-xl text-slate-600">Total Words</div>
               </div>
               
               <div className="flex flex-col items-center justify-center p-10 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">{titleMetrics.sectionCount.toLocaleString()}</div>
+                <div className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 text-center">{titleMetrics.sectionCount.toLocaleString()}</div>
                 <div className="text-xl text-slate-600">Total Regulations</div>
               </div>
               
               <div className="flex flex-col items-center justify-center p-10 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">{avgWordsPerRegulation.toLocaleString()}</div>
+                <div className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 text-center">{avgWordsPerRegulation.toLocaleString()}</div>
                 <div className="text-xl text-slate-600">Average Length</div>
               </div>
             </div>
