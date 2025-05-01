@@ -4,7 +4,7 @@
 
 :root {
     --primary-color: #1e293b;
-    --accent-color: #3b82f6;
+    --accent-color: #8b0000;
     --light-color: #ffffff;
 
     --primary-shade-50: #f8fafc;
@@ -19,17 +19,17 @@
     --primary-shade-900: #0f172a;
     --primary-shade-950: #020617;
 
-    --accent-shade-50: #eff6ff;
-    --accent-shade-100: #dbeafe;
-    --accent-shade-200: #bfdbfe;
-    --accent-shade-300: #93c5fd;
-    --accent-shade-400: #60a5fa;
-    --accent-shade-500: #3b82f6;
-    --accent-shade-600: #2563eb;
-    --accent-shade-700: #1d4ed8;
-    --accent-shade-800: #1e40af;
-    --accent-shade-900: #1e3a8a;
-    --accent-shade-950: #172554;
+    --accent-shade-50: #fdf2f2;
+    --accent-shade-100: #fde8e8;
+    --accent-shade-200: #fbd5d5;
+    --accent-shade-300: #f8b4b4;
+    --accent-shade-400: #f98080;
+    --accent-shade-500: #b91c1c;
+    --accent-shade-600: #a50f0f;
+    --accent-shade-700: #8b0000;
+    --accent-shade-800: #770000;
+    --accent-shade-900: #640000;
+    --accent-shade-950: #450000;
 
     --light-shade-50: var(--light-color);
     --light-shade-100: #F9F7F6;
@@ -38,9 +38,13 @@
 }
 
 body {
-    font-family: var(--body-font), sans-serif;
+    font-family: var(--body-font), serif;
     color: var(--primary-color);
     background-color: #f8fafc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--title-font), serif;
 }
 
 .metrics-card {

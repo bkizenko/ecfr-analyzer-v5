@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IconExternalLink, IconInfoCircle, IconBrandGithub } from "@tabler/icons-react";
+import { IconExternalLink, IconInfoCircle, IconBrandGithub, IconHome } from "@tabler/icons-react";
 
 export default function Navigation({
   title = "eCFR Analyzer",
@@ -7,18 +7,30 @@ export default function Navigation({
   title?: string;
 }) {
   return (
-    <div className="border-b border-gray-200 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+    <div className="border-b border-gray-200 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <Link href="/" className="flex items-center">
-              <h1 className="text-2xl font-bold text-white">{title}</h1>
+          <div className="mb-4 md:mb-0 flex items-center gap-3">
+            <Link 
+              href="/" 
+              className="flex items-center justify-center min-w-12 h-12 bg-white/10 hover:bg-white/20 rounded-md text-white transition mr-3" 
+              aria-label="Home"
+            >
+              <IconHome size={22} />
             </Link>
-            <p className="text-sm text-blue-100 mt-1">
-              Analyzing Federal Regulations for the Department of Government Efficiency (DOGE)
-            </p>
+            <div>
+              <Link href="/" className="flex items-center">
+                <h1 className="text-2xl font-bold text-white">{title}</h1>
+              </Link>
+              <p className="text-sm text-slate-200 mt-1">
+                Analyzing Federal Regulations for the Department of Government Efficiency (DOGE)
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/agency-search" className="flex items-center gap-2 px-4 py-2 bg-accent-shade-700 hover:bg-accent-shade-600 text-white rounded-md transition">
+              <span>Browse Agencies</span>
+            </Link>
             <a href="https://www.ecfr.gov/" target="_blank" rel="noopener" className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md transition">
               <span>Visit eCFR Website</span>
               <IconExternalLink size={16} />

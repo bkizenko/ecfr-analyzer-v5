@@ -7,7 +7,7 @@ import InfoPopover from "ecfr-analyzer/components/InfoPopover";
 // Import directly from agency-metrics.json instead of making API calls
 import agencyMetricsJson from "ecfr-analyzer/data/agency-metrics.json";
 
-export default function AgencyWordCountChart() {
+export default function AverageRegulationLengthChart() {
   const chartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,9 +25,17 @@ export default function AgencyWordCountChart() {
           return;
         }
         
-        // Get top 10 agencies by word count
-        const topAgencies = [...agencyMetrics]
-          .sort((a, b) => b.wordCount - a.wordCount)
+        // Calculate average words per section for each agency
+        const agenciesWithAvg = agencyMetrics
+          .filter(agency => agency.sectionCount > 0)
+          .map(agency => ({
+            name: agency.name,
+            avgWordsPerSection: Math.round(agency.wordCount / agency.sectionCount)
+          }));
+        
+        // Sort by average word count and get top 10
+        const topAgencies = agenciesWithAvg
+          .sort((a, b) => b.avgWordsPerSection - a.avgWordsPerSection)
           .slice(0, 10);
 
         const renderChart = async () => {
@@ -45,17 +53,7 @@ export default function AgencyWordCountChart() {
               return name.length > 25 ? name.substring(0, 22) + "..." : name;
             });
             
-            const data = topAgencies.map(agency => agency.wordCount);
-
-            // Format word counts (e.g., 15,000,000 → 15M)
-            const formatWordCount = (value: number) => {
-              if (value >= 1000000) {
-                return (value / 1000000).toFixed(1) + 'M';
-              } else if (value >= 1000) {
-                return (value / 1000).toFixed(0) + 'K';
-              }
-              return value;
-            };
+            const data = topAgencies.map(agency => agency.avgWordsPerSection);
 
             // Clear any existing chart
             if (chartRef.current) {
@@ -63,52 +61,41 @@ export default function AgencyWordCountChart() {
               const canvas = document.createElement('canvas');
               chartRef.current.appendChild(canvas);
 
-              // Create a gradient of burgundy/maroon colors
-              const burgundyColors = [
-                '#8b0000', // Main burgundy
-                '#980000',
-                '#a50f0f',
-                '#b21e1e',
-                '#bf2c2c',
-                '#cc3b3b',
-                '#d94848',
-                '#e65656',
-                '#f36464',
-                '#ff7272'
-              ];
-
-              // Create the chart
+              // Create a horizontal bar chart with burgundy/maroon colors
               new Chart(canvas, {
                 type: 'bar',
                 data: {
                   labels,
                   datasets: [{
-                    label: 'Word Count',
+                    label: 'Avg Words per Section',
                     data,
-                    backgroundColor: burgundyColors,
+                    backgroundColor: '#8b0000', // burgundy/maroon
                     borderColor: '#640000',
                     borderWidth: 1
                   }]
                 },
                 options: {
+                  indexAxis: 'y', // Horizontal bars
                   responsive: true,
                   maintainAspectRatio: false,
                   scales: {
-                    y: {
+                    x: {
                       beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Average Words Per Section',
+                        font: {
+                          family: 'var(--body-font), serif'
+                        }
+                      },
                       ticks: {
-                        callback: function(value) {
-                          return formatWordCount(Number(value));
-                        },
                         font: {
                           family: 'var(--body-font), serif'
                         }
                       }
                     },
-                    x: {
+                    y: {
                       ticks: {
-                        maxRotation: 45,
-                        minRotation: 45,
                         font: {
                           family: 'var(--body-font), serif'
                         }
@@ -120,7 +107,7 @@ export default function AgencyWordCountChart() {
                       callbacks: {
                         label: function(context) {
                           const value = context.raw as number;
-                          return `Word Count: ${value.toLocaleString()}`;
+                          return `Average: ${value.toLocaleString()} words per section`;
                         }
                       }
                     },
@@ -139,7 +126,7 @@ export default function AgencyWordCountChart() {
 
         renderChart();
       } catch (err) {
-        console.error("Error in AgencyWordCountChart:", err);
+        console.error("Error in AverageRegulationLengthChart:", err);
         setError("Failed to load data");
       } finally {
         setLoading(false);
@@ -185,8 +172,8 @@ export default function AgencyWordCountChart() {
           width={300}
         >
           <div className="text-sm">
-            <p>This chart shows the top 10 federal agencies with the most words in their regulations.</p>
-            <p className="mt-2">These agencies contribute the largest volume of regulatory text to the Code of Federal Regulations.</p>
+            <p>This chart displays agencies with the longest average section length in their regulations.</p>
+            <p className="mt-2">Some agencies write particularly long or complex regulatory sections, which may impact readability and compliance.</p>
           </div>
         </InfoPopover>
       </div>

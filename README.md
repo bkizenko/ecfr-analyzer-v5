@@ -6,13 +6,20 @@ The purpose of this application is to download Federal Regulations data and prod
 information available. Data is sourced from the [ECFR Bulk Data Repository](https://www.govinfo.gov/bulkdata/ECFR) and
 the [eCFR API](https://www.ecfr.gov/developers/documentation/api/v1#/).
 
-The general approach that this application takes is to define jobs which handle the heavy lifting of downloading,
-parsing, and collecting insights from the large set of CFR data. These programs then store computed values so that they
-can have constant lookup for display and analysis purposes.
+The application provides analytics on the volume and distribution of federal regulations across different agencies, 
+tracking metrics such as total word count, number of regulations, and average regulation length. 
 
 This system is currently running on [cfr-metrics.com](https://cfr-metrics.com). 
 
-### Data Model
+## Features
+
+* **Real-time Metrics Dashboard**: Displays the total word count, total number of regulations, and average regulation length across the entire Code of Federal Regulations
+* **Agency Analytics**: Shows which federal agencies have the most regulations by word count
+* **Regulatory Distribution**: Visualizes what percentage each agency contributes to the total federal regulations
+* **Regulation Length Analysis**: Compares the average length of regulations across different agencies
+* **Historical Metrics**: Tracks changes in regulation word counts over time with regular snapshots
+
+## Data Model
 
 The following tables make up the data model for this application:
 
@@ -20,6 +27,7 @@ The following tables make up the data model for this application:
   the [/admin/v1/agencies.json](https://www.ecfr.gov/developers/documentation/api/v1#/) API
 * `title`: Stores title XML downloaded from the [ECFR Bulk Data Repository](https://www.govinfo.gov/bulkdata/ECFR)
 * `computed_value`: A key-value store for computed metrics
+* `metrics_snapshot`: Stores historical snapshots of metrics for tracking changes over time
 
 [Source](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/ecfr_analyzer.sql)
 
@@ -29,12 +37,22 @@ There is a single server definition which handles all API requests - both public
 authenticated import endpoints. It is a Go server which is intended to be run in a serverless environment via
 Dockerfile.
 
+The server includes:
+* Core metrics calculations for agencies and titles
+* Historical metrics snapshots and retrieval
+* API endpoints for accessing all data
+
 [Source](https://github.com/sam-berry/ecfr-analyzer/tree/main/server)
 
 ### UI Architecture
 
 The UI for [cfr-metrics.com](https://cfr-metrics.com) is built using NextJS with an emphasis on SSR-capable pages which
 can be easily cached. The app is intended to be run in a serverless environment via Dockerfile.
+
+The UI features:
+* Elegant, classic design with serif fonts
+* Interactive data visualizations with Chart.js
+* Responsive metrics display for various screen sizes
 
 [Source](https://github.com/sam-berry/ecfr-analyzer/tree/main/ui)
 
@@ -96,7 +114,32 @@ To process metrics for all sub-agencies, run:
 curl -X POST -H 'Authorization: Bearer TOKEN' 'URL_ROOT/ecfr-service/compute/sub-agency-metrics'
 ```
 
-These 5 steps will generate all of the data needed to power the UI with constant lookup times.
+### Step 6: Create Historical Metrics Snapshot
+
+To create a historical snapshot of the current metrics, run:
+
+```
+curl -X POST -H 'Authorization: Bearer TOKEN' 'URL_ROOT/ecfr-service/metrics/historical/snapshots?description=Annual%20Snapshot&date=YYYY-MM-DD'
+```
+
+These steps will generate all of the data needed to power the UI with constant lookup times.
+
+## Historical Metrics
+
+The application now tracks actual historical metrics of regulation word counts over time, replacing the previously used simulated data. This is achieved through:
+
+1. Regular snapshots of the current metrics state
+2. Storage of these snapshots with timestamps
+3. API endpoints to retrieve historical trends
+4. Visualization of changes over time
+
+To set up automatic yearly snapshots, you can configure a cron job to run:
+
+```
+0 0 1 1 * curl -X POST -H 'Authorization: Bearer TOKEN' 'URL_ROOT/ecfr-service/metrics/historical/snapshots?description=Annual%20Snapshot'
+```
+
+This will create a snapshot on January 1st of each year.
 
 ## Development Setup
 
@@ -126,8 +169,8 @@ export ECFR_DEVELOPMENT="true"
 3. `psql ecfr`
 4. `grant all privileges on database ecfr to "ecfr-app";`
 5. `grant all on schema public TO "ecfr-app";`
-6. Run statements
-   in [ecfr_analyzer.sql](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/ecfr_analyzer.sql)
+6. Run statements in [ecfr_analyzer.sql](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/ecfr_analyzer.sql)
+7. Run statements in [historical_metrics.sql](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/historical_metrics.sql)
 
 ### Run Server
 

@@ -3,6 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
 	"github.com/sam-berry/ecfr-analyzer/server/api"
@@ -10,12 +17,6 @@ import (
 	"github.com/sam-berry/ecfr-analyzer/server/dao"
 	"github.com/sam-berry/ecfr-analyzer/server/httpclient"
 	"github.com/sam-berry/ecfr-analyzer/server/service"
-	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 )
 
 func main() {
@@ -46,6 +47,7 @@ func main() {
 	titleDAO := &dao.TitleDAO{Db: db}
 	titleImportDAO := &dao.TitleImportDAO{Db: db}
 	computedValueDAO := &dao.ComputedValueDAO{Db: db}
+	metricsSnapshotDAO := &dao.MetricsSnapshotDAO{Db: db}
 
 	agencyService := &service.AgencyService{AgencyDAO: agencyDAO}
 	agencyMetricService := &service.AgencyMetricService{AgencyDAO: agencyDAO, TitleDAO: titleDAO}
@@ -68,6 +70,13 @@ func main() {
 		AgencyDAO:        agencyDAO,
 		ComputedValueDAO: computedValueDAO,
 	}
+	historicalMetricService := &service.HistoricalMetricService{
+		ComputedValueDAO:    computedValueDAO,
+		AgencyDAO:           agencyDAO,
+		MetricsSnapshotDAO:  metricsSnapshotDAO,
+		TitleMetricService:  titleMetricService,
+		AgencyMetricService: agencyMetricService,
+	}
 
 	registerAPIs(
 		[]api.API{
@@ -78,6 +87,10 @@ func main() {
 			&api.MetricAPI{
 				Router:        router,
 				MetricService: metricService,
+			},
+			&api.HistoricalMetricsAPI{
+				Router:                  router,
+				HistoricalMetricService: historicalMetricService,
 			},
 		},
 	)

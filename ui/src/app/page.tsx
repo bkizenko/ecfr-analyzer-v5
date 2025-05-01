@@ -6,13 +6,12 @@ import Error from "ecfr-analyzer/components/Error";
 import GovInfoBulkDataLink from "ecfr-analyzer/components/GovInfoBulkDataLink";
 import GovInfoAPILink from "ecfr-analyzer/components/GovInfoAPILink";
 import MetricsGrid from "ecfr-analyzer/components/MetricsGrid";
-import AgencyGrid from "ecfr-analyzer/components/AgencyGrid";
 import PageContainer from "ecfr-analyzer/components/PageContainer";
 import { countSubAgencies } from "ecfr-analyzer/service/AgencyService";
-import Link from "next/link";
-import { IconBuildingBank, IconSearch, IconRefresh, IconDatabase } from "@tabler/icons-react";
 import AgencyWordCountChart from "ecfr-analyzer/components/AgencyWordCountChart";
-import HistoricalChangesChart from "ecfr-analyzer/components/HistoricalChangesChart";
+import AgencyProportionChart from "ecfr-analyzer/components/AgencyProportionChart";
+import AverageRegulationLengthChart from "ecfr-analyzer/components/AverageRegulationLengthChart";
+import Link from "next/link";
 
 export default async function Page() {
   const titleMetricsResponse = await fetchTitleMetrics();
@@ -32,100 +31,116 @@ export default async function Page() {
     (acc, cur) => acc + countSubAgencies(cur.agency),
     0,
   );
+  
+  // Calculate average words per regulation
+  const avgWordsPerRegulation = Math.round(titleMetrics.wordCount / titleMetrics.sectionCount);
 
   return (
     <PageContainer>
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
+      {/* Hero Section with updated colors */}
+      <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Federal Regulations Analytics Platform</h1>
-            <p className="text-xl text-blue-100 mb-8">Track, analyze, and understand the complexity of federal regulations with powerful metrics and insights.</p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/agency-search" className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 transition-colors">
-                <IconSearch size={18} className="mr-2" />
-                Browse & Search Regulations
-              </Link>
-              <Link href="/updates" className="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md shadow-sm text-white bg-transparent hover:bg-white/10 transition-colors">
-                <IconRefresh size={18} className="mr-2" />
-                Recent Updates
-              </Link>
-            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">CODE OF FEDERAL REGULATIONS</h1>
+            <p className="text-xl text-slate-200 mb-8">Analytics platform for tracking and understanding the complexity of federal regulations.</p>
           </div>
         </div>
       </div>
       
       <div className="container mx-auto px-4 pt-12 pb-20">
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">CFR Analytics Dashboard</h2>
-          <p className="text-gray-600 mb-8">Real-time insights into federal regulations data</p>
-          
-          <div className="flex gap-4 mb-10 overflow-x-auto pb-2">
-            <Link href="/agency-search" className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 text-blue-600 rounded-md hover:bg-blue-100 transition-colors whitespace-nowrap">
-              <IconDatabase size={18} />
-              <span>Browse & Search Regulations</span>
-            </Link>
-            <Link href="/updates" className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 text-blue-600 rounded-md hover:bg-blue-100 transition-colors whitespace-nowrap">
-              <IconRefresh size={18} />
-              <span>Updates</span>
-            </Link>
-          </div>
-        </div>
-        
+        {/* Main Metrics Section - Centered and Prominent */}
         <div className="mb-16">
-          <MetricsGrid
-            metrics={[
-              {
-                count: titleMetrics.wordCount,
-                label: "Word Count",
-                info: (
-                  <div>
-                    Word count calculated by extracting the text from each title
-                    BODY content and splitting on whitespace, using data
-                    available via <GovInfoBulkDataLink />
-                  </div>
-                ),
-              },
-              {
-                count: titleMetrics.sectionCount,
-                label: "Total Regulations",
-                info: (
-                  <div>
-                    Section count calculated by counting the number of DIV8
-                    instances in each title, using data available via{" "}
-                    <GovInfoBulkDataLink />
-                  </div>
-                ),
-              },
-              {
-                count: agencyCount,
-                label: "Average Length",
-                info: (
-                  <div>
-                    Average words per regulation based on data returned via the admin
-                    agencies API found here: <GovInfoAPILink />
-                  </div>
-                ),
-              },
-            ]}
-          />
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">Federal Regulations Metrics</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex flex-col items-center justify-center p-8 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{titleMetrics.wordCount.toLocaleString()}</div>
+                <div className="text-lg text-slate-600">Total Words</div>
+                <div className="mt-4 text-xs text-slate-500 text-center">
+                  Word count calculated from CFR text content
+                </div>
+              </div>
+              
+              <div className="flex flex-col items-center justify-center p-8 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{titleMetrics.sectionCount.toLocaleString()}</div>
+                <div className="text-lg text-slate-600">Total Regulations</div>
+                <div className="mt-4 text-xs text-slate-500 text-center">
+                  Unique regulatory sections in the CFR
+                </div>
+              </div>
+              
+              <div className="flex flex-col items-center justify-center p-8 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{avgWordsPerRegulation.toLocaleString()}</div>
+                <div className="text-lg text-slate-600">Average Length</div>
+                <div className="mt-4 text-xs text-slate-500 text-center">
+                  Average words per regulatory section
+                </div>
+              </div>
+            </div>
+            
+            {/* Browse Agencies Button */}
+            <div className="mt-8 flex justify-center">
+              <Link 
+                href="/agency-search"
+                className="px-6 py-3 bg-accent-shade-700 hover:bg-accent-shade-600 text-white font-medium rounded-md shadow-sm hover:shadow-md transition-all flex items-center gap-2"
+              >
+                Browse Federal Agencies
+              </Link>
+            </div>
+            
+            <div className="mt-6 text-center text-sm text-slate-500">
+              Data sourced from <GovInfoBulkDataLink /> and <GovInfoAPILink />
+            </div>
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
-              Top Agencies by Word Count
-            </h2>
-            <p className="text-sm text-gray-600 mb-6">Agencies with the most verbose regulations</p>
-            <AgencyWordCountChart />
+        {/* Data Visualization Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Regulatory Analytics</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h2 className="text-lg font-semibold text-slate-900 mb-2">
+                Top Agencies by Word Count
+              </h2>
+              <p className="text-sm text-slate-600 mb-6">Agencies with the most verbose regulations</p>
+              <AgencyWordCountChart />
+            </div>
+            
+            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h2 className="text-lg font-semibold text-slate-900 mb-2">
+                Regulation Distribution
+              </h2>
+              <p className="text-sm text-slate-600 mb-6">Percentage of total regulation words by agency</p>
+              <AgencyProportionChart />
+            </div>
           </div>
           
-          <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
-              Historical Changes
+          <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow mb-8">
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">
+              Average Regulation Length by Agency
             </h2>
-            <p className="text-sm text-gray-600 mb-6">Regulation changes over time</p>
-            <HistoricalChangesChart />
+            <p className="text-sm text-slate-600 mb-6">Agencies with the longest average regulations (words per section)</p>
+            <AverageRegulationLengthChart />
+          </div>
+        </div>
+        
+        {/* Additional Stats */}
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">Additional Statistics</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-sm font-medium text-slate-700 mb-2">Federal Agencies</h3>
+              <p className="text-2xl font-bold text-slate-900">{agencyCount.toLocaleString()}</p>
+              <p className="text-sm text-slate-600 mt-1">Federal agencies issuing regulations</p>
+            </div>
+            
+            <div>
+              <h3 className="text-sm font-medium text-slate-700 mb-2">Sub-Agencies</h3>
+              <p className="text-2xl font-bold text-slate-900">{subAgencyCount.toLocaleString()}</p>
+              <p className="text-sm text-slate-600 mt-1">Departments and divisions within agencies</p>
+            </div>
           </div>
         </div>
       </div>

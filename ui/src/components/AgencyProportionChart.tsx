@@ -7,7 +7,7 @@ import InfoPopover from "ecfr-analyzer/components/InfoPopover";
 // Import directly from agency-metrics.json instead of making API calls
 import agencyMetricsJson from "ecfr-analyzer/data/agency-metrics.json";
 
-export default function AgencyWordCountChart() {
+export default function AgencyProportionChart() {
   const chartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,19 +16,35 @@ export default function AgencyWordCountChart() {
     const loadData = async () => {
       try {
         setLoading(true);
-        
+
         // Use hardcoded data directly from the JSON file
         const agencyMetrics = agencyMetricsJson.agencies;
+        const totalWordCount = agencyMetricsJson.metadata.totalWords;
         
         if (!agencyMetrics || !Array.isArray(agencyMetrics) || agencyMetrics.length === 0) {
           setError("No agency metrics data available");
           return;
         }
+
+        // Get top agencies that make up ~80% of the total
+        const sortedAgencies = [...agencyMetrics].sort((a, b) => b.wordCount - a.wordCount);
         
-        // Get top 10 agencies by word count
-        const topAgencies = [...agencyMetrics]
-          .sort((a, b) => b.wordCount - a.wordCount)
-          .slice(0, 10);
+        // Calculate cumulative percentages and find where it crosses ~80%
+        let cumulativeWordCount = 0;
+        const topAgencies = [];
+        
+        for (const agency of sortedAgencies) {
+          topAgencies.push(agency);
+          cumulativeWordCount += agency.wordCount;
+          
+          // Once we've reached approximately 80%, stop adding more
+          if (cumulativeWordCount / totalWordCount > 0.8) {
+            break;
+          }
+        }
+
+        // Calculate "Other" for the remaining agencies
+        const otherWordCount = totalWordCount - cumulativeWordCount;
 
         const renderChart = async () => {
           // Only execute in browser environment
@@ -39,23 +55,21 @@ export default function AgencyWordCountChart() {
             const { Chart, registerables } = await import("chart.js");
             Chart.register(...registerables);
 
+            // Prepare data for the chart
             const labels = topAgencies.map(agency => {
               // Shorten long agency names
               const name = agency.name.replace("Department of ", "Dept. of ");
               return name.length > 25 ? name.substring(0, 22) + "..." : name;
             });
             
+            // Add "Other" category
+            labels.push("Other Agencies");
+            
             const data = topAgencies.map(agency => agency.wordCount);
-
-            // Format word counts (e.g., 15,000,000 → 15M)
-            const formatWordCount = (value: number) => {
-              if (value >= 1000000) {
-                return (value / 1000000).toFixed(1) + 'M';
-              } else if (value >= 1000) {
-                return (value / 1000).toFixed(0) + 'K';
-              }
-              return value;
-            };
+            data.push(otherWordCount);
+            
+            // Calculate percentages for the tooltip
+            const percentages = data.map(value => ((value / totalWordCount) * 100).toFixed(1) + '%');
 
             // Clear any existing chart
             if (chartRef.current) {
@@ -63,69 +77,55 @@ export default function AgencyWordCountChart() {
               const canvas = document.createElement('canvas');
               chartRef.current.appendChild(canvas);
 
-              // Create a gradient of burgundy/maroon colors
+              // Create burgundy/maroon color scheme
               const burgundyColors = [
-                '#8b0000', // Main burgundy
-                '#980000',
-                '#a50f0f',
-                '#b21e1e',
-                '#bf2c2c',
-                '#cc3b3b',
-                '#d94848',
-                '#e65656',
-                '#f36464',
-                '#ff7272'
+                '#580000', // Darkest burgundy
+                '#6c0000',
+                '#8b0000', // Classic burgundy/maroon
+                '#a31010',
+                '#b82020',
+                '#cc3030',
+                '#dd4444',
+                '#e55858',
+                '#eb6c6c',
+                '#ff7d7d' // Lightest
               ];
 
               // Create the chart
               new Chart(canvas, {
-                type: 'bar',
+                type: 'pie',
                 data: {
                   labels,
                   datasets: [{
                     label: 'Word Count',
                     data,
                     backgroundColor: burgundyColors,
-                    borderColor: '#640000',
-                    borderWidth: 1
+                    borderColor: '#ffffff',
+                    borderWidth: 2
                   }]
                 },
                 options: {
                   responsive: true,
                   maintainAspectRatio: false,
-                  scales: {
-                    y: {
-                      beginAtZero: true,
-                      ticks: {
-                        callback: function(value) {
-                          return formatWordCount(Number(value));
-                        },
+                  plugins: {
+                    legend: {
+                      position: 'right',
+                      labels: {
+                        padding: 20,
                         font: {
-                          family: 'var(--body-font), serif'
+                          family: 'var(--body-font), serif',
+                          size: 11
                         }
                       }
                     },
-                    x: {
-                      ticks: {
-                        maxRotation: 45,
-                        minRotation: 45,
-                        font: {
-                          family: 'var(--body-font), serif'
-                        }
-                      }
-                    }
-                  },
-                  plugins: {
                     tooltip: {
                       callbacks: {
                         label: function(context) {
+                          const index = context.dataIndex;
                           const value = context.raw as number;
-                          return `Word Count: ${value.toLocaleString()}`;
+                          return `${context.label}: ${value.toLocaleString()} words (${percentages[index]})`;
                         }
                       }
-                    },
-                    legend: {
-                      display: false
                     }
                   }
                 }
@@ -139,7 +139,7 @@ export default function AgencyWordCountChart() {
 
         renderChart();
       } catch (err) {
-        console.error("Error in AgencyWordCountChart:", err);
+        console.error("Error in AgencyProportionChart:", err);
         setError("Failed to load data");
       } finally {
         setLoading(false);
@@ -175,7 +175,7 @@ export default function AgencyWordCountChart() {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 right-0">
+      <div className="absolute top-0 right-0 z-10">
         <InfoPopover
           target={
             <ActionIcon size="xs" variant="subtle" className="text-gray-400">
@@ -185,8 +185,8 @@ export default function AgencyWordCountChart() {
           width={300}
         >
           <div className="text-sm">
-            <p>This chart shows the top 10 federal agencies with the most words in their regulations.</p>
-            <p className="mt-2">These agencies contribute the largest volume of regulatory text to the Code of Federal Regulations.</p>
+            <p>This pie chart shows the distribution of regulatory text volume across major federal agencies.</p>
+            <p className="mt-2">A small number of agencies account for the majority of federal regulations by word count.</p>
           </div>
         </InfoPopover>
       </div>

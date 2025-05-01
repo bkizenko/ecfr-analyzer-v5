@@ -9,17 +9,17 @@ import { ReactNode } from "react";
 
 import "@mantine/core/styles.css";
 import "./globals.css";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Merriweather, Lora } from "next/font/google";
 
-const bodyFont = Inter({
+const bodyFont = Lora({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   variable: "--body-font",
 });
 
-const titleFont = Playfair_Display({
-  weight: ["400", "500", "600", "700"],
+const titleFont = Merriweather({
+  weight: ["400", "700"],
   subsets: ["latin"],
   display: "swap",
   variable: "--title-font",
