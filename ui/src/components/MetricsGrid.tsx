@@ -14,36 +14,30 @@ export default function MetricsGrid({
   }[];
 }) {
   return (
-    <div className="relative mx-4 min-w-64 max-w-2xl md:w-full">
-      <div className="bg-primary absolute -left-4 -top-4 bottom-8 right-8"></div>
-      <div className="bg-accent absolute -bottom-4 -right-4 left-8 top-8"></div>
-      <div className="bg-light border-primary relative flex flex-wrap justify-around gap-8 border p-8 max-sm:flex-col">
-        {metrics.map((it, i) => (
-          <div
-            key={i}
-            className="flex min-w-[40%] shrink-0 flex-col items-center gap-2"
-          >
-            <div className="font-title text-4xl font-bold md:text-5xl">
-              <NumberCounter start={0} end={it.count}></NumberCounter>
-            </div>
-            <div className="flex items-center gap-0.5">
-              <div className="font-semibold">{it.label}</div>
-              <div className="-mr-4">
-                <InfoPopover
-                  target={
-                    <ActionIcon size="xs" variant="subtle">
-                      <IconInfoCircle size={13} />
-                    </ActionIcon>
-                  }
-                  width={300}
-                >
-                  {it.info}
-                </InfoPopover>
-              </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto max-w-7xl px-4">
+      {metrics.map((it, i) => (
+        <div key={i} className="metrics-card p-6">
+          <h3 className="text-gray-600 text-sm font-medium mb-2">{it.label}</h3>
+          <div className="text-gray-900 text-3xl font-bold mb-1">
+            <NumberCounter start={0} end={it.count}></NumberCounter>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="text-sm text-gray-500">
+              <InfoPopover
+                target={
+                  <ActionIcon size="xs" variant="subtle" className="text-gray-400">
+                    <IconInfoCircle size={14} />
+                  </ActionIcon>
+                }
+                width={300}
+              >
+                {it.info}
+              </InfoPopover>
+              More information
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

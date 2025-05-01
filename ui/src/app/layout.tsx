@@ -9,25 +9,25 @@ import { ReactNode } from "react";
 
 import "@mantine/core/styles.css";
 import "./globals.css";
-import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
-const bodyFont = Instrument_Sans({
+const bodyFont = Inter({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   variable: "--body-font",
 });
 
-const titleFont = Instrument_Serif({
-  weight: ["400"],
+const titleFont = Playfair_Display({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   variable: "--title-font",
 });
 
 export const metadata: Metadata = {
-  title: "Code of Federal Regulations Metrics",
-  description: "Insights into Federal Regulations data",
+  title: "eCFR Analyzer - Federal Regulations",
+  description: "Analyzing Federal Regulations data for DOGE",
 };
 
 const theme = createTheme({
@@ -75,7 +75,7 @@ export default function RootLayout({
       <head>
         <link
           rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>"
         />
         <ColorSchemeScript />
       </head>

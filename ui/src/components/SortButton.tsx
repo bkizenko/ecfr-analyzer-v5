@@ -26,15 +26,16 @@ export default function SortButton({
       size="compact-sm"
       leftSection={
         isAsc ? (
-          <IconArrowUp size={13} stroke={2.5} />
+          <IconArrowUp size={14} stroke={2} />
         ) : isDesc ? (
-          <IconArrowDown size={13} stroke={2.5} />
+          <IconArrowDown size={14} stroke={2} />
         ) : (
-          <IconArrowsUpDown size={13} stroke={2.5} />
+          <IconArrowsUpDown size={14} stroke={2} />
         )
       }
       classNames={{
         section: "mr-1",
+        root: `rounded-full px-3 py-1 transition-all ${isAsc || isDesc ? 'border-accent text-accent' : 'border-primary-300 text-primary-700'} hover:border-accent hover:text-accent`,
       }}
       onClick={() => {
         if (isDesc) {

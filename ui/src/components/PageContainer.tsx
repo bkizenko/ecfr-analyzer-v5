@@ -10,7 +10,7 @@ export default function PageContainer({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-h-[100dvh] flex-col">
+    <div className="flex min-h-[100dvh] flex-col bg-gray-50">
       <Navigation title={title} />
       <main className="flex-grow">{children}</main>
       <Footer />

@@ -89,17 +89,18 @@ export default function AgencyGrid({
 
   return (
     <div className="">
-      <div className="m-auto mb-6 w-full max-w-[26rem] justify-center">
+      <div className="m-auto mb-8 w-full max-w-xl">
         <TextInput
           placeholder="Search Agencies"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.currentTarget.value)}
           classNames={{
-            input: "border-primary",
+            input: "border border-accent/20 rounded-full px-4 py-2 focus:border-accent focus:ring-1 focus:ring-accent outline-none",
+            root: "w-full",
           }}
         />
       </div>
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 mb-10">
         <SortButton
           isAsc={filter === AgencyFilter.WORDS_ASC}
           isDesc={filter === AgencyFilter.WORDS_DESC}
@@ -135,14 +136,14 @@ export default function AgencyGrid({
           />
         )}
       </div>
-      <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
         {displayedAgencies.map((it, i) => {
           const subAgencyCount = countSubAgencies(it.agency);
 
           return (
             <Link
               key={i}
-              className={`border-primary bg-light w-full max-w-[26rem] shrink-0 border p-4 transition ease-in-out ${isSubAgency ? "cursor-default" : "hover:shadow-lg"}`}
+              className={`agency-card w-full max-w-md p-6 ${isSubAgency ? "cursor-default" : ""}`}
               href={isSubAgency ? "" : `/agency/${it.agency.slug}`}
               onClick={(event) => {
                 if (isSubAgency) {
@@ -151,12 +152,12 @@ export default function AgencyGrid({
               }}
             >
               <div
-                className="mb-2 line-clamp-2 h-[3.5rem] text-lg font-semibold"
+                className="mb-4 line-clamp-2 min-h-[3.5rem] text-xl font-semibold text-primary-900"
                 title={it.agency.name}
               >
                 {it.agency.name}
               </div>
-              <div className="flex justify-between gap-4">
+              <div className="flex justify-between gap-6">
                 {[
                   {
                     count: it.metrics.wordCount,
@@ -194,14 +195,14 @@ export default function AgencyGrid({
                         abbreviate={true}
                       ></NumberCounter>
                     </div>
-                    <div className="flex items-center gap-0.5">
-                      <div className="font-semibold">{metric.label}</div>
-                      <div className="">
+                    <div className="flex items-center gap-1">
+                      <div className="font-medium">{metric.label}</div>
+                      <div>
                         <InfoPopover
                           target={
                             <ActionIcon size="xs" variant="subtle">
                               <IconInfoCircle
-                                size={13}
+                                size={14}
                                 className={`${metric.emphasize ? "text-accent" : "text-primary-700"}`}
                               />
                             </ActionIcon>
@@ -216,17 +217,17 @@ export default function AgencyGrid({
                 ))}
               </div>
               {!isSubAgency && (
-                <div className="-mr-2 mt-4 flex items-center justify-between">
+                <div className="mt-6 flex items-center justify-between">
                   <div>
                     {!isSubAgency && subAgencyCount > 0 && (
-                      <div className="text-sm font-semibold opacity-50">
+                      <div className="text-sm font-medium text-primary-500">
                         {subAgencyCount} inner agenc
                         {subAgencyCount === 1 ? "y" : "ies"}
                       </div>
                     )}
                   </div>
-                  <Button variant="subtle" size="compact-sm">
-                    View details <IconArrowRight size={15} className="ml-1" />
+                  <Button variant="subtle" size="compact-sm" className="text-accent hover:bg-accent hover:text-white px-4 py-1 rounded-full">
+                    View details <IconArrowRight size={16} className="ml-1" />
                   </Button>
                 </div>
               )}
@@ -235,8 +236,12 @@ export default function AgencyGrid({
         })}
       </div>
       {agencyMetrics.length && visibleCount <= agencyMetrics.length && (
-        <div className="mt-10 flex justify-center">
-          <Button variant="outline" onClick={loadMoreAgencies}>
+        <div className="mt-12 flex justify-center">
+          <Button 
+            variant="outline" 
+            onClick={loadMoreAgencies} 
+            className="btn-outline"
+          >
             Load more agencies
           </Button>
         </div>
