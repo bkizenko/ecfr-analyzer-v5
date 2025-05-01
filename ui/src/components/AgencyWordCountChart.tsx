@@ -92,13 +92,21 @@ export default function AgencyWordCountChart() {
                   scales: {
                     y: {
                       beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Word Count',
+                        font: {
+                          family: 'var(--body-font), serif',
+                          size: 16
+                        }
+                      },
                       ticks: {
                         callback: function(value) {
                           return formatWordCount(Number(value));
                         },
                         font: {
                           family: 'var(--body-font), serif',
-                          size: 12
+                          size: 15
                         }
                       }
                     },
@@ -108,13 +116,21 @@ export default function AgencyWordCountChart() {
                         minRotation: 30,
                         font: {
                           family: 'var(--body-font), serif',
-                          size: 13
+                          size: 16
                         }
                       }
                     }
                   },
                   plugins: {
                     tooltip: {
+                      titleFont: {
+                        family: 'var(--body-font), serif',
+                        size: 16
+                      },
+                      bodyFont: {
+                        family: 'var(--body-font), serif',
+                        size: 15
+                      },
                       callbacks: {
                         label: function(context) {
                           const value = context.raw as number;
@@ -157,7 +173,7 @@ export default function AgencyWordCountChart() {
   if (loading) {
     return (
       <div className="relative">
-        <Skeleton height={360} radius="md" />
+        <Skeleton height={400} radius="md" />
       </div>
     );
   }
@@ -188,7 +204,7 @@ export default function AgencyWordCountChart() {
           </div>
         </InfoPopover>
       </div>
-      <div ref={chartRef} className="h-full min-h-[360px]"></div>
+      <div ref={chartRef} className="h-full min-h-[400px]"></div>
     </div>
   );
 } 

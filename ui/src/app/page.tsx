@@ -73,7 +73,7 @@ export default async function Page() {
             <div className="mt-10 flex justify-center">
               <Link 
                 href="/agency-search"
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium rounded-md shadow-sm hover:shadow-md transition-all flex items-center gap-2"
+                className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white text-lg font-medium rounded-md shadow-sm hover:shadow-md transition-all flex items-center gap-2"
               >
                 Browse Federal Agencies
               </Link>
