@@ -1,4 +1,4 @@
-# CFR-Metrics.com - Federal Regulations Metric Analyzer
+Federal Regulations Metric Analyzer
 
 ## Overview
 
