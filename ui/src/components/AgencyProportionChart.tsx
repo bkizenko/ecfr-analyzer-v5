@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { ActionIcon, Skeleton } from "@mantine/core";
+import { ActionIcon, Skeleton, Tooltip } from "@mantine/core";
 import InfoPopover from "ecfr-analyzer/components/InfoPopover";
+import { useRouter } from "next/navigation";
 // Import directly from agency-metrics.json instead of making API calls
 import agencyMetricsJson from "ecfr-analyzer/data/agency-metrics.json";
 
@@ -11,6 +12,8 @@ export default function AgencyProportionChart() {
   const chartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedAgency, setSelectedAgency] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const loadData = async () => {
@@ -91,8 +94,22 @@ export default function AgencyProportionChart() {
                 '#ff7d7d' // Lightest
               ];
 
+              // Function to handle segment click
+              const handleSegmentClick = (index: number) => {
+                if (index < topAgencies.length) {
+                  const agencyName = topAgencies[index].name;
+                  const agencySlug = agencyName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                  setSelectedAgency(agencyName);
+                  
+                  // Navigate to agency page
+                  setTimeout(() => {
+                    router.push(`/agency/${agencySlug}`);
+                  }, 300);
+                }
+              };
+
               // Create the chart
-              new Chart(canvas, {
+              const chart = new Chart(canvas, {
                 type: 'pie',
                 data: {
                   labels,
@@ -101,12 +118,22 @@ export default function AgencyProportionChart() {
                     data,
                     backgroundColor: burgundyColors,
                     borderColor: '#ffffff',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    hoverBackgroundColor: burgundyColors.map(color => color.replace('#', '#ee')), // Lighter on hover
+                    hoverBorderColor: '#ffffff',
+                    hoverBorderWidth: 3,
+                    hoverOffset: 10
                   }]
                 },
                 options: {
                   responsive: true,
                   maintainAspectRatio: false,
+                  animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                  },
                   plugins: {
                     legend: {
                       position: 'right',
@@ -115,16 +142,70 @@ export default function AgencyProportionChart() {
                         font: {
                           family: 'var(--body-font), serif',
                           size: 11
+                        },
+                        generateLabels: (chart) => {
+                          const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                          labels.forEach(label => {
+                            // Add custom styling to legend items
+                            label.lineWidth = 1;
+                            label.borderRadius = 2;
+                          });
+                          return labels;
+                        },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                      },
+                      onClick: (e, legendItem, legend) => {
+                        const index = legendItem.index;
+                        if (index !== undefined && index < topAgencies.length) {
+                          handleSegmentClick(index);
                         }
                       }
                     },
                     tooltip: {
+                      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                      titleFont: {
+                        family: 'var(--body-font), serif',
+                        size: 14
+                      },
+                      bodyFont: {
+                        family: 'var(--body-font), serif',
+                        size: 13
+                      },
+                      padding: 12,
+                      cornerRadius: 6,
                       callbacks: {
                         label: function(context) {
                           const index = context.dataIndex;
                           const value = context.raw as number;
                           return `${context.label}: ${value.toLocaleString()} words (${percentages[index]})`;
+                        },
+                        afterLabel: function(context) {
+                          if (context.dataIndex < topAgencies.length) {
+                            return 'Click to view agency details';
+                          }
+                          return '';
                         }
+                      }
+                    }
+                  },
+                  onClick: (e, elements) => {
+                    if (elements && elements.length > 0) {
+                      const index = elements[0].index;
+                      if (index < topAgencies.length) {
+                        handleSegmentClick(index);
+                      }
+                    }
+                  },
+                  onHover: (e, elements) => {
+                    // Change cursor to pointer when hovering over segments (except "Other")
+                    const canvas = e.native?.target as HTMLCanvasElement;
+                    if (canvas) {
+                      if (elements && elements.length > 0) {
+                        const index = elements[0].index;
+                        canvas.style.cursor = index < topAgencies.length ? 'pointer' : 'default';
+                      } else {
+                        canvas.style.cursor = 'default';
                       }
                     }
                   }
@@ -154,7 +235,7 @@ export default function AgencyProportionChart() {
         chartRef.current.innerHTML = '';
       }
     };
-  }, []);
+  }, [router]);
   
   if (loading) {
     return (
@@ -176,21 +257,40 @@ export default function AgencyProportionChart() {
   return (
     <div className="relative">
       <div className="absolute top-0 right-0 z-10">
-        <InfoPopover
-          target={
-            <ActionIcon size="xs" variant="subtle" className="text-gray-400">
-              <IconInfoCircle size={14} />
-            </ActionIcon>
-          }
-          width={300}
-        >
-          <div className="text-sm">
-            <p>This pie chart shows the distribution of regulatory text volume across major federal agencies.</p>
-            <p className="mt-2">A small number of agencies account for the majority of federal regulations by word count.</p>
-          </div>
-        </InfoPopover>
+        <Tooltip label="View chart information" position="left" withArrow>
+          <InfoPopover
+            target={
+              <ActionIcon 
+                size="md" 
+                variant="light" 
+                color="gray" 
+                className="shadow-sm hover:shadow border border-gray-200 bg-white"
+              >
+                <IconInfoCircle size={16} />
+              </ActionIcon>
+            }
+            width={300}
+          >
+            <div className="text-sm">
+              <p>This pie chart shows the distribution of regulatory text volume across major federal agencies.</p>
+              <p className="mt-2">A small number of agencies account for the majority of federal regulations by word count.</p>
+              <div className="mt-3 text-xs text-slate-500 italic">Click on any segment or legend item to view detailed information about that agency.</div>
+            </div>
+          </InfoPopover>
+        </Tooltip>
       </div>
+      
+      {selectedAgency && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800/80 text-white py-2 px-4 rounded-full text-sm animate-pulse">
+          Navigating to {selectedAgency}...
+        </div>
+      )}
+      
       <div ref={chartRef} className="h-full min-h-[300px]"></div>
+      
+      <div className="text-center mt-2 text-sm text-slate-500">
+        Click on any segment to view detailed agency information
+      </div>
     </div>
   );
 } 
