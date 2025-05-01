@@ -72,7 +72,7 @@ export default async function Page() {
             {/* Browse Agencies Button - Bigger and Blue */}
             <div className="mt-10 flex justify-center">
               <Link 
-                href="/agency-search"
+                href="/agency"
                 className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white text-lg font-medium rounded-md shadow-sm hover:shadow-md transition-all flex items-center gap-2"
               >
                 Browse Federal Agencies

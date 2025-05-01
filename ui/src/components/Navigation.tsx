@@ -25,7 +25,7 @@ export default function Navigation({
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/agency-search" className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-md transition">
+            <Link href="/agency" className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-md transition">
               <span>Browse Agencies</span>
             </Link>
             <a href="https://www.ecfr.gov/" target="_blank" rel="noopener" className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md transition">

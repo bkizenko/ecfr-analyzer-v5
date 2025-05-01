@@ -34,16 +34,10 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/search" className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
+                <a href="https://www.ecfr.gov/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
                   <IconChevronRight size={14} stroke={2} />
-                  <span>Search</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/updates" className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
-                  <IconChevronRight size={14} stroke={2} />
-                  <span>Updates</span>
-                </Link>
+                  <span>Official eCFR Website</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -51,12 +45,6 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">Resources</h3>
             <ul className="space-y-2">
-              <li>
-                <a href="https://www.ecfr.gov/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
-                  <IconChevronRight size={14} stroke={2} />
-                  <span>eCFR Website</span>
-                </a>
-              </li>
               <li>
                 <a href="https://www.govinfo.gov/bulkdata/ECFR" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
                   <IconChevronRight size={14} stroke={2} />

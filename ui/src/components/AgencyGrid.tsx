@@ -142,7 +142,7 @@ export default function AgencyGrid({
 
           return (
             <Link
-              key={i}
+              key={`agency-${i}-${it.agency.slug || i}`}
               className={`agency-card w-full max-w-md p-6 ${isSubAgency ? "cursor-default" : ""}`}
               href={isSubAgency ? "" : `/agency/${it.agency.slug}`}
               onClick={(event) => {
@@ -183,9 +183,9 @@ export default function AgencyGrid({
                       </div>
                     ),
                   },
-                ].map((metric, i) => (
+                ].map((metric, metricIndex) => (
                   <div
-                    key={i}
+                    key={`metric-${i}-${metricIndex}`}
                     className={`${metric.emphasize ? "text-accent" : "text-primary-700"}`}
                   >
                     <div className="text-3xl font-bold uppercase">
