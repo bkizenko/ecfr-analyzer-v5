@@ -1,0 +1,434 @@
+{
+  "metadata": {
+    "description": "Federal Regulations Metrics - Agency and Inner Agency Word Counts",
+    "source": "cfr-metrics.com",
+    "createdAt": "2023-05-01",
+    "totalAgencies": 153,
+    "totalInnerAgencies": 163,
+    "totalWords": 104372225,
+    "totalSections": 231304
+  },
+  "agencies": [
+    {
+      "name": "Department of Treasury",
+      "wordCount": 15120613,
+      "sectionCount": 16768,
+      "innerAgencies": [
+        {
+          "name": "Internal Revenue Service",
+          "wordCount": 13013629,
+          "sectionCount": 28022
+        },
+        {
+          "name": "Alcohol and Tobacco Tax & Trade Bureau",
+          "wordCount": 901140,
+          "sectionCount": 3570
+        },
+        {
+          "name": "Comptroller of the Currency",
+          "wordCount": 740350,
+          "sectionCount": 1120
+        },
+        {
+          "name": "Office of Foreign Assets Control",
+          "wordCount": 559020,
+          "sectionCount": 2710
+        },
+        {
+          "name": "Fiscal Service",
+          "wordCount": 338270,
+          "sectionCount": 1180
+        },
+        {
+          "name": "Bureau of the Fiscal Service",
+          "wordCount": 338260,
+          "sectionCount": 1180
+        },
+        {
+          "name": "Financial Crimes Enforcement Network",
+          "wordCount": 101030,
+          "sectionCount": 290
+        },
+        {
+          "name": "Office of Investment Security",
+          "wordCount": 87540,
+          "sectionCount": 287
+        },
+        {
+          "name": "Community Development Financial Institutions Fund",
+          "wordCount": 50460,
+          "sectionCount": 166
+        },
+        {
+          "name": "Monetary Offices",
+          "wordCount": 29020,
+          "sectionCount": 95
+        },
+        {
+          "name": "Office of Financial Research",
+          "wordCount": 6050,
+          "sectionCount": 7
+        },
+        {
+          "name": "Bureau of Engraving and Printing",
+          "wordCount": 2820,
+          "sectionCount": 6
+        },
+        {
+          "name": "Office of Secretary of the Treasury",
+          "wordCount": 0,
+          "sectionCount": 0
+        }
+      ]
+    },
+    {
+      "name": "Department of Agriculture",
+      "wordCount": 13566594,
+      "sectionCount": 39902,
+      "innerAgencies": [
+        {
+          "name": "Agricultural Marketing Service",
+          "wordCount": 1480000,
+          "sectionCount": 8450
+        },
+        {
+          "name": "Rural Utilities Service",
+          "wordCount": 1160000,
+          "sectionCount": 2450
+        },
+        {
+          "name": "Animal and Plant Health Inspection Service",
+          "wordCount": 895910,
+          "sectionCount": 1800
+        },
+        {
+          "name": "Rural Business-Cooperative Service",
+          "wordCount": 766080,
+          "sectionCount": 1730
+        },
+        {
+          "name": "Food and Nutrition Service",
+          "wordCount": 754840,
+          "sectionCount": 613
+        },
+        {
+          "name": "Rural Housing Service",
+          "wordCount": 683440,
+          "sectionCount": 1600
+        },
+        {
+          "name": "Farm Service Agency",
+          "wordCount": 631610,
+          "sectionCount": 1800
+        },
+        {
+          "name": "Commodity Credit Corporation",
+          "wordCount": 463520,
+          "sectionCount": 1190
+        },
+        {
+          "name": "Food Safety and Inspection Service",
+          "wordCount": 356870,
+          "sectionCount": 1080
+        },
+        {
+          "name": "Federal Crop Insurance Corporation",
+          "wordCount": 325540,
+          "sectionCount": 228
+        },
+        {
+          "name": "Forest Service",
+          "wordCount": 321740,
+          "sectionCount": 706
+        },
+        {
+          "name": "National Institute of Food and Agriculture",
+          "wordCount": 109800,
+          "sectionCount": 353
+        },
+        {
+          "name": "Natural Resources Conservation Service",
+          "wordCount": 98230,
+          "sectionCount": 363
+        },
+        {
+          "name": "Foreign Agricultural Service",
+          "wordCount": 38640,
+          "sectionCount": 105
+        },
+        {
+          "name": "Agricultural Research Service",
+          "wordCount": 18210,
+          "sectionCount": 116
+        },
+        {
+          "name": "Office of Advocacy and Outreach",
+          "wordCount": 9460,
+          "sectionCount": 50
+        },
+        {
+          "name": "Office of Energy Policy and New Uses",
+          "wordCount": 6710,
+          "sectionCount": 37
+        },
+        {
+          "name": "Office of Transportation",
+          "wordCount": 6660,
+          "sectionCount": 32
+        },
+        {
+          "name": "Economic Research Service",
+          "wordCount": 3110,
+          "sectionCount": 11
+        },
+        {
+          "name": "Office of Procurement and Property Management",
+          "wordCount": 3080,
+          "sectionCount": 22
+        },
+        {
+          "name": "Office of Inspector General",
+          "wordCount": 2990,
+          "sectionCount": 10
+        },
+        {
+          "name": "National Agricultural Statistics Service",
+          "wordCount": 2980,
+          "sectionCount": 11
+        },
+        {
+          "name": "Office of Operations",
+          "wordCount": 2910,
+          "sectionCount": 19
+        },
+        {
+          "name": "Office of Environmental Quality",
+          "wordCount": 2330,
+          "sectionCount": 7
+        },
+        {
+          "name": "World Agricultural Outlook Board",
+          "wordCount": 1230,
+          "sectionCount": 10
+        },
+        {
+          "name": "Office of Information Resources Management",
+          "wordCount": 1150,
+          "sectionCount": 8
+        },
+        {
+          "name": "Office of Chief Financial Officer",
+          "wordCount": 0,
+          "sectionCount": 0
+        },
+        {
+          "name": "Office of Secretary of Agriculture",
+          "wordCount": 0,
+          "sectionCount": 0
+        }
+      ]
+    },
+    {
+      "name": "Department of Health and Human Services",
+      "wordCount": 7868232,
+      "sectionCount": 20262,
+      "innerAgencies": [
+        {
+          "name": "Food and Drug Administration",
+          "wordCount": 2620000,
+          "sectionCount": 7840
+        },
+        {
+          "name": "Centers for Medicare & Medicaid Services",
+          "wordCount": 2540000,
+          "sectionCount": 5070
+        },
+        {
+          "name": "Public Health Service",
+          "wordCount": 571810,
+          "sectionCount": 1980
+        },
+        {
+          "name": "Administration for Children and Families",
+          "wordCount": 428140,
+          "sectionCount": 1120
+        },
+        {
+          "name": "Indian Health Service",
+          "wordCount": 87290,
+          "sectionCount": 622
+        },
+        {
+          "name": "Office of Inspector General – Health Care",
+          "wordCount": 80950,
+          "sectionCount": 187
+        },
+        {
+          "name": "Office of Administration for Children and Families (Child Support Enforcement)",
+          "wordCount": 0,
+          "sectionCount": 0
+        },
+        {
+          "name": "Office of Administration for Children and Families (Community Services)",
+          "wordCount": 0,
+          "sectionCount": 0
+        },
+        {
+          "name": "Office of Administration for Children and Families (Family Assistance Programs)",
+          "wordCount": 0,
+          "sectionCount": 0
+        },
+        {
+          "name": "Office of Administration for Children and Families (Refugee Resettlement)",
+          "wordCount": 0,
+          "sectionCount": 0
+        }
+      ]
+    },
+    {
+      "name": "Department of Transportation",
+      "wordCount": 5677323,
+      "sectionCount": 13577,
+      "innerAgencies": [
+        {
+          "name": "Federal Aviation Administration",
+          "wordCount": 1710000,
+          "sectionCount": 4730
+        },
+        {
+          "name": "Pipeline and Hazardous Materials Safety Administration",
+          "wordCount": 975870,
+          "sectionCount": 1910
+        },
+        {
+          "name": "National Highway Traffic Safety Administration",
+          "wordCount": 905480,
+          "sectionCount": 1200
+        },
+        {
+          "name": "Federal Railroad Administration",
+          "wordCount": 806320,
+          "sectionCount": 2020
+        },
+        {
+          "name": "Federal Motor Carrier Safety Administration",
+          "wordCount": 440810,
+          "sectionCount": 1080
+        },
+        {
+          "name": "Federal Highway Administration",
+          "wordCount": 416740,
+          "sectionCount": 1030
+        },
+        {
+          "name": "Maritime Administration",
+          "wordCount": 249750,
+          "sectionCount": 800
+        },
+        {
+          "name": "Federal Transit Administration",
+          "wordCount": 92100,
+          "sectionCount": 345
+        },
+        {
+          "name": "Great Lakes St. Lawrence Seaway Development Corporation",
+          "wordCount": 27690,
+          "sectionCount": 131
+        },
+        {
+          "name": "Federal Aviation Administration Commercial Space Transportation",
+          "wordCount": 0,
+          "sectionCount": 0
+        },
+        {
+          "name": "Office of Secretary (Aviation Proceedings)",
+          "wordCount": 0,
+          "sectionCount": 0
+        },
+        {
+          "name": "Office of Secretary of Transportation",
+          "wordCount": 0,
+          "sectionCount": 0
+        }
+      ]
+    },
+    {
+      "name": "Department of Energy",
+      "wordCount": 2450762,
+      "sectionCount": 5060,
+      "innerAgencies": [
+        {
+          "name": "Federal Energy Regulatory Commission",
+          "wordCount": 752330,
+          "sectionCount": 1360
+        }
+      ]
+    },
+    {
+      "name": "Federal Communications Commission",
+      "wordCount": 2327408,
+      "sectionCount": 5307,
+      "innerAgencies": []
+    },
+    {
+      "name": "Department of Justice",
+      "wordCount": 2028887,
+      "sectionCount": 5008,
+      "innerAgencies": [
+        {
+          "name": "Executive Office for Immigration Review",
+          "wordCount": 221720,
+          "sectionCount": 330
+        },
+        {
+          "name": "Drug Enforcement Administration",
+          "wordCount": 178400,
+          "sectionCount": 465
+        },
+        {
+          "name": "Bureau of Alcohol, Tobacco, Firearms, and Explosives",
+          "wordCount": 129460,
+          "sectionCount": 421
+        },
+        {
+          "name": "Bureau of Prisons",
+          "wordCount": 99440,
+          "sectionCount": 481
+        },
+        {
+          "name": "Foreign Claims Settlement Commission of the United States",
+          "wordCount": 17850,
+          "sectionCount": 94
+        },
+        {
+          "name": "Federal Prison Industries",
+          "wordCount": 11660,
+          "sectionCount": 70
+        },
+        {
+          "name": "Offices of Independent Counsel",
+          "wordCount": 3340,
+          "sectionCount": 13
+        }
+      ]
+    },
+    {
+      "name": "Securities and Exchange Commission",
+      "wordCount": 1580073,
+      "sectionCount": 2283,
+      "innerAgencies": []
+    },
+    {
+      "name": "Department of Veterans Affairs",
+      "wordCount": 1349862,
+      "sectionCount": 3403,
+      "innerAgencies": []
+    },
+    {
+      "name": "Nuclear Regulatory Commission",
+      "wordCount": 1256925,
+      "sectionCount": 2693,
+      "innerAgencies": []
+    }
+  ]
+} 

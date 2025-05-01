@@ -12,7 +12,7 @@ export default function Footer() {
               A modern platform for analyzing federal regulations and providing insights into regulatory metrics.
             </p>
             <div className="flex gap-4">
-              <a href="https://github.com/boriskizenko/ecfr-analyzer-v5" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition-colors">
+              <a href="https://github.com/bkizenko/ecfr-analyzer-v5" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition-colors">
                 <IconBrandGithub size={18} />
               </a>
             </div>

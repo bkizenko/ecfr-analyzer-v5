@@ -11,6 +11,8 @@ import PageContainer from "ecfr-analyzer/components/PageContainer";
 import { countSubAgencies } from "ecfr-analyzer/service/AgencyService";
 import Link from "next/link";
 import { IconBuildingBank, IconSearch, IconRefresh, IconDatabase } from "@tabler/icons-react";
+import AgencyWordCountChart from "ecfr-analyzer/components/AgencyWordCountChart";
+import HistoricalChangesChart from "ecfr-analyzer/components/HistoricalChangesChart";
 
 export default async function Page() {
   const titleMetricsResponse = await fetchTitleMetrics();
@@ -115,12 +117,7 @@ export default async function Page() {
               Top Agencies by Word Count
             </h2>
             <p className="text-sm text-gray-600 mb-6">Agencies with the most verbose regulations</p>
-            <div className="border border-dashed border-gray-300 rounded-md p-8 flex items-center justify-center text-gray-500 bg-gray-50 h-48">
-              <div className="text-center">
-                <div className="text-blue-500 mb-2">📊</div>
-                <p>Chart visualization coming soon</p>
-              </div>
-            </div>
+            <AgencyWordCountChart />
           </div>
           
           <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -128,15 +125,7 @@ export default async function Page() {
               Historical Changes
             </h2>
             <p className="text-sm text-gray-600 mb-6">Regulation changes over time</p>
-            <div className="rounded-md p-8 flex items-center justify-center text-red-500 bg-red-50 h-48">
-              <div className="flex flex-col items-center">
-                <svg className="w-6 h-6 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <div className="text-sm font-medium">Data Unavailable</div>
-                <div className="text-xs mt-1 text-red-600">Historical data is currently being processed.</div>
-              </div>
-            </div>
+            <HistoricalChangesChart />
           </div>
         </div>
       </div>

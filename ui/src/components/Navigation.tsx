@@ -23,7 +23,7 @@ export default function Navigation({
               <span>Visit eCFR Website</span>
               <IconExternalLink size={16} />
             </a>
-            <a href="https://github.com/boriskizenko/ecfr-analyzer-v5" target="_blank" rel="noopener" className="flex items-center justify-center w-10 h-10 bg-white/10 hover:bg-white/20 rounded-md text-white transition">
+            <a href="https://github.com/bkizenko/ecfr-analyzer-v5" target="_blank" rel="noopener" className="flex items-center justify-center w-10 h-10 bg-white/10 hover:bg-white/20 rounded-md text-white transition">
               <IconBrandGithub size={20} />
             </a>
           </div>
