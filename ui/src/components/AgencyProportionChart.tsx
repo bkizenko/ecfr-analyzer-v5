@@ -26,11 +26,11 @@ export default function AgencyProportionChart() {
           return;
         }
 
-        // Get only top 5 agencies
+        // Get top 10 agencies
         const sortedAgencies = [...agencyMetrics].sort((a, b) => b.wordCount - a.wordCount);
-        const topAgencies = sortedAgencies.slice(0, 5);
+        const topAgencies = sortedAgencies.slice(0, 10);
         
-        // Calculate total words for top 5 agencies
+        // Calculate total words for top 10 agencies
         const topAgenciesWordCount = topAgencies.reduce((sum, agency) => sum + agency.wordCount, 0);
         
         // Calculate "Other" for the remaining agencies
@@ -67,14 +67,19 @@ export default function AgencyProportionChart() {
               const canvas = document.createElement('canvas');
               chartRef.current.appendChild(canvas);
 
-              // Create burgundy/maroon color scheme - only need 6 colors (5 agencies + Other)
+              // Create burgundy/maroon color scheme for top 10 agencies + Other
               const burgundyColors = [
                 '#580000', // Darkest burgundy
                 '#6c0000',
                 '#8b0000', // Classic burgundy/maroon
                 '#a31010',
                 '#b82020',
-                '#999999', // Gray for "Other"
+                '#cc3030',
+                '#dd4444',
+                '#e55858',
+                '#eb6c6c',
+                '#ff7d7d', // Lightest
+                '#f09090', // Light burgundy for "Other" (replacing gray)
               ];
 
               // Create the chart
@@ -100,11 +105,19 @@ export default function AgencyProportionChart() {
                         padding: 20,
                         font: {
                           family: 'var(--body-font), serif',
-                          size: 14
+                          size: 16 // Larger font size
                         }
                       }
                     },
                     tooltip: {
+                      titleFont: {
+                        family: 'var(--body-font), serif',
+                        size: 16
+                      },
+                      bodyFont: {
+                        family: 'var(--body-font), serif',
+                        size: 15
+                      },
                       callbacks: {
                         label: function(context) {
                           const index = context.dataIndex;
@@ -171,12 +184,12 @@ export default function AgencyProportionChart() {
           width={300}
         >
           <div className="text-sm">
-            <p>This pie chart shows the distribution of regulatory text volume across the top 5 federal agencies.</p>
-            <p className="mt-2">These five agencies account for a significant portion of federal regulations by word count.</p>
+            <p>This pie chart shows the distribution of regulatory text volume across the top 10 federal agencies.</p>
+            <p className="mt-2">These agencies account for a significant portion of federal regulations by word count.</p>
           </div>
         </InfoPopover>
       </div>
-      <div ref={chartRef} className="h-full min-h-[360px]"></div>
+      <div ref={chartRef} className="h-full min-h-[400px]"></div>
     </div>
   );
 } 
