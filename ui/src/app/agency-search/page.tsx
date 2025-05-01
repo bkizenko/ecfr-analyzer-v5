@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { useState, useEffect } from "react";
 import { fetchAgencyMetrics } from "ecfr-analyzer/service/MetricService";
 import Error from "ecfr-analyzer/components/Error";
@@ -7,6 +8,8 @@ import AgencyGrid from "ecfr-analyzer/components/AgencyGrid";
 import PageContainer from "ecfr-analyzer/components/PageContainer";
 import { IconSearch, IconBuildingBank, IconSortAscending, IconArrowsSort } from "@tabler/icons-react";
 import Link from "next/link";
+// Importing directly from agency-metrics.json instead of making API calls
+import agencyMetricsJson from "ecfr-analyzer/data/agency-metrics.json";
 
 export default function AgencySearchPage() {
   const [sortMethod, setSortMethod] = useState("word-count");
@@ -37,6 +40,14 @@ export default function AgencySearchPage() {
     loadData();
   }, []);
 
+  // Get agencies from the static data
+  const agencies = agencyMetricsJson.agencies || [];
+  
+  // Sort agencies alphabetically by name
+  const sortedAgencies = [...agencies].sort((a, b) => 
+    a.name.localeCompare(b.name)
+  );
+
   if (error) {
     return <Error message={error} />;
   }
@@ -62,113 +73,52 @@ export default function AgencySearchPage() {
   const sortedMetrics = getSortedAgencyMetrics();
 
   return (
-    <PageContainer title="Browse Federal Agencies">
+    <PageContainer>
+      {/* Hero Section with the same color scheme as the main page */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">FEDERAL REGULATIONS BY AGENCY</h1>
-            <p className="text-xl text-slate-200 mb-8">Browse metrics for each federal agency's regulations</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">Federal Agencies</h1>
+            <p className="text-lg text-white/80">Browse all federal agencies and their regulations</p>
           </div>
         </div>
       </div>
-
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <div className="flex justify-center mb-6">
-            <div className="relative w-full max-w-xl">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <IconSearch size={18} className="text-slate-400" />
-              </div>
-              <input
-                type="text"
-                className="block w-full rounded-md border border-slate-200 py-3 pl-10 pr-3 focus:border-accent-shade-700 focus:outline-none focus:ring-1 focus:ring-accent-shade-700"
-                placeholder="Search Agencies"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-center space-x-2 mb-8">
-            <button 
-              onClick={() => setSortMethod("word-count")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md ${
-                sortMethod === "word-count" 
-                  ? "bg-accent-shade-700 text-white" 
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
-            >
-              <IconArrowsSort size={18} />
-              <span>Sort by words</span>
-            </button>
-            
-            <button 
-              onClick={() => setSortMethod("regulations")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md ${
-                sortMethod === "regulations" 
-                  ? "bg-accent-shade-700 text-white" 
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
-            >
-              <IconArrowsSort size={18} />
-              <span>Sort by regulations</span>
-            </button>
-            
-            <button 
-              onClick={() => setSortMethod("agency-name")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md ${
-                sortMethod === "agency-name" 
-                  ? "bg-accent-shade-700 text-white" 
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
-            >
-              <IconArrowsSort size={18} />
-              <span>Sort by agency</span>
-            </button>
-          </div>
+      
+      <div className="container mx-auto px-4 py-12">
+        <div className="mb-6 flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-slate-900">All Federal Agencies</h2>
+          <Link 
+            href="/"
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium rounded-md shadow-sm hover:shadow-md transition-all"
+          >
+            Back to Dashboard
+          </Link>
         </div>
-
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent-shade-700"></div>
-            <span className="ml-3 text-slate-600">Loading agencies...</span>
-          </div>
-        ) : (
+        
+        <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedMetrics.map((metric) => (
-              <div key={metric.agency.id} className="bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="p-5">
-                  <h2 className="text-lg font-semibold text-slate-900 mb-2">{metric.agency.name}</h2>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <div className="text-2xl font-bold text-accent-shade-700">
-                        {metric.wordCount.toLocaleString()}
-                      </div>
-                      <div className="text-sm text-slate-600">Words</div>
-                    </div>
-                    
-                    <div>
-                      <div className="text-2xl font-bold text-slate-800">
-                        {metric.sectionCount.toLocaleString()}
-                      </div>
-                      <div className="text-sm text-slate-600">Sections</div>
-                    </div>
-                  </div>
-                  
-                  <div className="text-sm text-slate-500 mb-4">
-                    {metric.subAgencyCount} inner agencies
-                  </div>
-                  
+            {sortedAgencies.map((agency) => (
+              <div 
+                key={agency.id} 
+                className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-slate-50"
+              >
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">{agency.name}</h3>
+                <div className="text-sm text-slate-600 mb-4">
+                  <p><span className="font-medium">Words: </span>{agency.wordCount.toLocaleString()}</p>
+                  <p><span className="font-medium">Sections: </span>{agency.sectionCount.toLocaleString()}</p>
+                </div>
+                <div className="mt-3">
                   <Link 
-                    href={`/agency/${metric.agency.slug}`}
-                    className="inline-block text-sm text-accent-shade-700 hover:text-accent-shade-600 font-medium"
+                    href={`/agency/${agency.id}`}
+                    className="text-sm font-medium text-slate-800 hover:text-slate-600 transition"
                   >
-                    View details →
+                    View Details →
                   </Link>
                 </div>
               </div>
             ))}
           </div>
-        )}
+        </div>
       </div>
     </PageContainer>
   );
