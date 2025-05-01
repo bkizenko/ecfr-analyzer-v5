@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #0d122e;
+    --accent-color: #aa011a;
+    --light-color: #ffffff;
+
+    --primary-shade-50: #AEB7E8;
+    --primary-shade-100: #9EA8E4;
+    --primary-shade-200: #7E8CDB;
+    --primary-shade-300: #5E70D2;
+    --primary-shade-400: #3E53C9;
+    --primary-shade-500: #3144AD;
+    --primary-shade-600: #28378D;
+    --primary-shade-700: #1F2B6E;
+    --primary-shade-800: #141f4d;
+    --primary-shade-900: var(--primary-color);
+    --primary-shade-950: #070918;
+
+    --accent-shade-50: #FFB6C0;
+    --accent-shade-100: #FEA1AF;
+    --accent-shade-200: #FE798D;
+    --accent-shade-300: #FE506A;
+    --accent-shade-400: #FE2847;
+    --accent-shade-500: #FB0126;
+    --accent-shade-600: #D30120;
+    --accent-shade-700: var(--accent-color);
+    --accent-shade-800: #720111;
+    --accent-shade-900: #3A0009;
+    --accent-shade-950: #1F0005;
+
+    --light-shade-50: var(--light-color);
+    --light-shade-100: #F9F7F6;
+    --light-shade-200: #EDE7E4;
+    --light-shade-300: #e1d6d1;
+
+}
+
+body {
+    font-family: var(--body-font), sans-serif;
+    color: var(--primary-color);
+}
+
