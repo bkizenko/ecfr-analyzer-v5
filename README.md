@@ -9,7 +9,7 @@ the [eCFR API](https://www.ecfr.gov/developers/documentation/api/v1#/).
 The application provides analytics on the volume and distribution of federal regulations across different agencies, 
 tracking metrics such as total word count, number of regulations, and average regulation length. 
 
-This system is currently running on [cfr-metrics.com](https://cfr-metrics.com). 
+This system is currently running on https://ecfr-analyzer-v5.onrender.com/. 
 
 ## Features
 
@@ -29,7 +29,7 @@ The following tables make up the data model for this application:
 * `computed_value`: A key-value store for computed metrics
 * `metrics_snapshot`: Stores historical snapshots of metrics for tracking changes over time
 
-[Source](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/ecfr_analyzer.sql)
+[Source](https://github.com/bkizenko/ecfr-analyzer-v5/blob/main/server/sql/ecfr_analyzer.sql)
 
 ### Server Architecture
 
@@ -42,11 +42,10 @@ The server includes:
 * Historical metrics snapshots and retrieval
 * API endpoints for accessing all data
 
-[Source](https://github.com/sam-berry/ecfr-analyzer/tree/main/server)
 
 ### UI Architecture
 
-The UI for [cfr-metrics.com](https://cfr-metrics.com) is built using NextJS with an emphasis on SSR-capable pages which
+The UI for [https://ecfr-analyzer-v5.onrender.com/] is built using NextJS with an emphasis on SSR-capable pages which
 can be easily cached. The app is intended to be run in a serverless environment via Dockerfile.
 
 The UI features:
@@ -54,11 +53,10 @@ The UI features:
 * Interactive data visualizations with Chart.js
 * Responsive metrics display for various screen sizes
 
-[Source](https://github.com/sam-berry/ecfr-analyzer/tree/main/ui)
 
 ### Cloud Architecture
 
-All infrastructure that powers [cfr-metrics.com](https://cfr-metrics.com) is running in Google Cloud via serverless
+All infrastructure that powers https://ecfr-analyzer-v5.onrender.com/ is running in Google Cloud via serverless
 architecture. This includes:
 
 * Cloud Run Services for both the UI and Server applications
@@ -69,9 +67,9 @@ architecture. This includes:
 ## Data Population Workflow
 
 Assuming the application is running, these are the steps to download and populate the data needed to
-power [cfr-metrics.com](https://cfr-metrics.com), from scratch:
+power https://ecfr-analyzer-v5.onrender.com/, from scratch:
 
-**`URL_ROOT`**: Locally this will be `http://localhost:8090`. For production it is `https://cfr-metrics.com`.
+**`URL_ROOT`**: Locally this will be `http://localhost:8090`. For production it is `https://https://ecfr-analyzer-v5.onrender.com/`.
 **`TOKEN`**: This value is set by the `ECFR_ADMIN_TOKEN` environment variable.
 
 ### Step 1: Import Agencies
@@ -169,8 +167,8 @@ export ECFR_DEVELOPMENT="true"
 3. `psql ecfr`
 4. `grant all privileges on database ecfr to "ecfr-app";`
 5. `grant all on schema public TO "ecfr-app";`
-6. Run statements in [ecfr_analyzer.sql](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/ecfr_analyzer.sql)
-7. Run statements in [historical_metrics.sql](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/sql/historical_metrics.sql)
+6. Run statements in [ecfr_analyzer.sql](https://github.com/bkizenko/ecfr-analyzer-v5/blob/main/server/sql/ecfr_analyzer.sql)
+7. Run statements in [historical_metrics.sql](https://github.com/bkizenko/ecfr-analyzer-v5/blob/main/server/sql/historical_metrics.sql)
 
 ### Run Server
 
@@ -195,7 +193,7 @@ FROM agency a
 WHERE cv.id IS NULL;
 ```
 
-Failed agencies can be run individually, or in bulk via the [`import-specific-agencies.sh`](https://github.com/sam-berry/ecfr-analyzer/blob/main/server/scripts/import-specific-agencies.sh) script.
+Failed agencies can be run individually, or in bulk via the [`import-specific-agencies.sh`](https://github.com/bkizenko/ecfr-analyzer-v5/blob/main/server/scripts/import-specific-agencies.sh) script.
 
 ## Areas for Improvement
 
