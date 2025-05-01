@@ -22,13 +22,10 @@ export default function Navigation({
               <Link href="/" className="flex items-center">
                 <h1 className="text-2xl font-bold text-white">{title}</h1>
               </Link>
-              <p className="text-sm text-slate-200 mt-1">
-                Analyzing Federal Regulations for the Department of Government Efficiency (DOGE)
-              </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/agency-search" className="flex items-center gap-2 px-4 py-2 bg-accent-shade-700 hover:bg-accent-shade-600 text-white rounded-md transition">
+            <Link href="/agency-search" className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition">
               <span>Browse Agencies</span>
             </Link>
             <a href="https://www.ecfr.gov/" target="_blank" rel="noopener" className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md transition">
