@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd ui && npm install && npm run build",
-  "outputDirectory": "ui/.next",
-  "framework": "nextjs"
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/ui/$1" }
+  ]
 } 
